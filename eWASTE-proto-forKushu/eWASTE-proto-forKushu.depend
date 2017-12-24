@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1513748246 source:p:\backupewaste\ewaste-proto-forkushu\main.cpp
+	<iostream>
+
+1513750427 source:p:\backupewaste\ewaste-proto-forkushu\main_menu.cpp
+	<iostream>
+	<cstdlib>
+
+1513740866 source:c:\users\student\desktop\e_waste\backupewaste\ewaste-proto-forkushu\main.cpp
+	<iostream>
+
+1513943704 source:c:\users\thesynthax\downloads\e_waste-20171222t115040z-001\e_waste\backupewaste\ewaste-proto-forkushu\main.cpp
+	<iostream>
+
+1513943705 source:c:\users\thesynthax\downloads\e_waste-20171222t115040z-001\e_waste\backupewaste\ewaste-proto-forkushu\main_menu.cpp
+	<iostream>
+	<cstdlib>
+

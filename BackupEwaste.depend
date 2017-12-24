@@ -1,0 +1,57 @@
+# depslib dependency file v1.0
+1513750102 source:p:\backupewaste\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+
+1513711044 source:f:\users\ashuadm\documents\projects\backupewaste\main_menu.cpp
+	<iostream>
+
+1513785293 source:f:\users\ashuadm\documents\projects\backupewaste\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+	<locale>
+
+1513839151 source:c:\users\internet\documents\codeblocks\backupewastev2\backupewaste\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+	<locale>
+
+1513740860 source:c:\users\internet\documents\codeblocks\backupewastev2\backupewaste\main_menu.cpp
+	<iostream>
+
+1513913544 source:c:\users\student\desktop\e waste\backupewaste\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+	<locale>
+
+1513740860 source:c:\users\student\desktop\e waste\backupewaste\main_menu.cpp
+	<iostream>
+
+1513740860 source:c:\users\student\desktop\e_waste\backupewaste\main_menu.cpp
+	<iostream>
+
+1513921836 source:c:\users\student\desktop\e_waste\backupewaste\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+	<locale>
+
+1513948395 source:c:\users\thesynthax\downloads\e_waste-20171222t115040z-001\e_waste\backupewaste\main_menu.cpp
+	<iostream>
+	<cstdlib>
+
+1514097743 source:c:\users\thesynthax\downloads\e_waste-20171222t115040z-001\e_waste\backupewaste\main.cpp
+	<iostream>
+	<fstream>
+	<string>
+	<locale>
+	<cstdlib>
+
+1513950309 source:c:\users\thesynthax\downloads\e_waste-20171222t115040z-001\e_waste\backupewaste\homepage.cpp
+	<iostream>
+	<cstdlib>
+
