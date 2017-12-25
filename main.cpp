@@ -45,6 +45,11 @@ struct colon_is_space : std::ctype<char> {
     }
 };
 
+bool fileisEmpty(std::fstream &file)/// <------ THIS IS THE FUNCTION FOR CHECKING EMPTY FILES
+{
+    return file.peek() == std::fstream::traits_type::eof();
+}
+
 ///Main Structure of Data;
 struct WasteProducts
 {
@@ -445,16 +450,29 @@ void MainPage()
                         int units = 0;
                         std::cin >> units;
 
-                        //arrMain.seekg(0, std::fstream::end);
+                        arrMain.open("arrayQMain.txt", std::fstream::in | std::fstream::out);
 
                         ///Checks if user came for the first time
                         while (smallCont_3 == 1)
                         {
-                            for (int i = 0; i < noOfProducts; i++)
+                            if (fileisEmpty(arrMain))
                             {
-                                userProdUnits[i] = 1;
-                                std::cout << "done";
+                                for (int i = 0; i < noOfProducts; i++)
+                                {
+                                    userProdUnits[i] = 1;
+
+                                }
+                                std::cout << "isEmpty";
                             }
+                            else
+                            {
+                                for (int i = 0; i < noOfProducts; i++)
+                                {
+                                    arrMain >> userProdUnits[i];
+                                }
+                                std::cout << "isNotEmpty";
+                            }
+
 
                             smallCont_3++;
                         }
