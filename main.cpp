@@ -27,6 +27,9 @@ char choicePage;
 std::fstream fptr;
 std::fstream qfile;
 
+///This is the file which stores values of array. This is a persistence file (non-volatile)
+std::fstream arrMain;
+
 ///Pages
 enum Page
 {
@@ -45,7 +48,7 @@ struct colon_is_space : std::ctype<char> {
     }
 };
 
-bool fileisEmpty(std::fstream &file)/// <------ THIS IS THE FUNCTION FOR CHECKING EMPTY FILES
+bool fileisEmpty(std::fstream &file)
 {
     return file.peek() == std::fstream::traits_type::eof();
 }
@@ -400,11 +403,11 @@ void MainPage()
                     {
                         ///This is the file which stores values of array. This is not a persistent file (volatile)
                         std::fstream arrfile;
-                        ///This is the file which stores values of array. This is a persistence file (non-volatile)
-                        std::fstream arrMain;
+
 
                         ///Open file
                         arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out);
+                        arrMain.open("arrayQMain.txt", std::fstream::in);
                         ///looping var which checks if the user came back for management for second time without closing the application
                         bool smallCont_4 = 0;
                         ///looping var which checks if the user is coming for management for the first time.
@@ -415,6 +418,29 @@ void MainPage()
 
                         ///The main array which checks for units for products.
                         int userProdUnits[noOfProducts];
+
+                        while (smallCont_3 == 1)
+                        {
+
+                            for (int i = 0; i < noOfProducts; i++)
+                            {
+
+                                arrMain.seekg (0, std::ios::end);
+                                if (arrMain.tellg() == 0)
+                                {
+                                    userProdUnits[i] = 1;
+                                    std::cout << "empty";
+                                }
+                                else
+                                {
+                                    std::cout << "notempty";
+                                    //arrMain >> userProdUnits[i];
+                                }
+                            }
+
+                            smallCont_3++;
+                        }
+
                         ///If the user came back second time
                         while (smallCont_4 == 1)
                         {
@@ -441,6 +467,7 @@ void MainPage()
                         arrfile.close();
 
 
+
                         ///open
                         arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out);
 
@@ -450,32 +477,10 @@ void MainPage()
                         int units = 0;
                         std::cin >> units;
 
-                        arrMain.open("arrayQMain.txt", std::fstream::in | std::fstream::out);
+                        //arrMain.seekg(0, std::fstream::end);
 
                         ///Checks if user came for the first time
-                        while (smallCont_3 == 1)
-                        {
-                            if (fileisEmpty(arrMain))
-                            {
-                                for (int i = 0; i < noOfProducts; i++)
-                                {
-                                    userProdUnits[i] = 1;
 
-                                }
-                                std::cout << "isEmpty";
-                            }
-                            else
-                            {
-                                for (int i = 0; i < noOfProducts; i++)
-                                {
-                                    arrMain >> userProdUnits[i];
-                                }
-                                std::cout << "isNotEmpty";
-                            }
-
-
-                            smallCont_3++;
-                        }
 
                         ///Main line of code which increments the value of the units
                         userProdUnits[prodNo] += units;
@@ -499,12 +504,18 @@ void MainPage()
 
                         arrMain.open("arrayQMain.txt", std::ios::in | std::ios::out);
 
+
+
                         ///Add the values of array to the main array file
                         for (int i = 1; i < noOfProducts; i++)
                         {
                             std::cout << userProdUnits[i] << std::endl;
-                            arrMain << userProdUnits[i] << " ";
+                            if (arrMain.is_open())
+                                arrMain << userProdUnits[i] << " ";
                         }
+
+
+
 
                         arrMain.close();
 
