@@ -3,6 +3,7 @@
 #include <string>
 #include <locale>
 #include <cstdlib>
+#include <stdio.h>
 
 void HomeMenu();
 void MainPage();
@@ -13,6 +14,7 @@ void QuitMenu();
 bool cont = true;
 bool smallCont = true;
 bool smallCont_2 = true;
+int smallCont_3 = 1;
 
 //Namespace references
 using std::string;
@@ -24,6 +26,9 @@ char choicePage;
 
 std::fstream fptr;
 std::fstream qfile;
+
+
+
 
 enum Page
 {
@@ -111,7 +116,7 @@ void MainMenu()
     std::cout << "*                                                                        *" << std::endl;
     std::cout << "**************************************************************************" << std::endl;
     std::cout << std::endl;
-    std::cout << "Enter choice -> a, b, c.\n" << "--> ";
+    std::cout << "Enter choice -> a or b.\n" << "--> ";
     std::cin >> choiceMain;
 
 }
@@ -120,7 +125,8 @@ void MainPage()
 {
     smallCont = 1;
     smallCont_2 = 1;
-    fptr.open("C:/Users/TheSynthax/Downloads/E_Waste-20171222T115040Z-001/E_Waste/BackupEwaste/BackupEwasteWasteProducts.dat", std::ios::in | std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
+    fptr.open("BackupEwasteWasteProducts.dat", std::ios::in | std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
+
     switch(choiceMain)
     {
     /*case 'a':
@@ -162,7 +168,7 @@ void MainPage()
             char searchPart[20];
             std::cin >> searchPart;
 
-            fptr.open("C:/Users/TheSynthax/Downloads/E_Waste-20171222T115040Z-001/E_Waste/BackupEwaste/BackupEwasteWasteProducts.dat", std::ios::in | std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
+            fptr.open("BackupEwasteWasteProducts.dat", std::ios::in | std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
             fptr.seekp(0);
 
             bool comparison;
@@ -284,29 +290,29 @@ void MainPage()
                     break;
                 }
             }*/
-
             int noOfProducts = 1;
-
             fptr.seekp(0);
             std::cout << "******************************************************************\n";
-            std::cout << "This is the product list: \n";
-            std::cout << "   ________________\n";
+            std::cout << "* --> This is the product list: \n";
+            std::cout << "*        ________________\n" << "*";
             while (fptr.eof() != 1)
             {
                 fptr.read((char *)&WP, sizeof(WasteProducts));
 
-                std::cout << "\n" << "--> (" << fptr.tellp()/432 << ") " << WP.Parts;
+                std::cout << "\n* --> " << WP.Parts;
                 noOfProducts++;
             }
-            std::cout << "\n\n******************************************************************";
-            int userProdUnits[noOfProducts];
+            std::cout << "\n*        _________________\n*\n******************************************************************";
+            fptr.close();
+            fptr.open("BackupEwasteWasteProducts.dat", std::ios::in | std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
+
 
             char searchPart[20];
 
             std::cout << "\n* --> Which product do you want to manage: \n* --> ";
             std::cin >> searchPart;
 
-            fptr.open("C:/Users/TheSynthax/Downloads/E_Waste-20171222T115040Z-001/E_Waste/BackupEwaste/BackupEwasteWasteProducts.dat", std::ios::in | std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
+
             fptr.seekp(0);
 
             bool comparison;
@@ -331,16 +337,130 @@ void MainPage()
 
             if (fptr.eof() && !comparison)
             {
-                std::cout << "Please Enter the correct product name.";
+                std::cout << "* --> Please Enter the correct product name.";
             }
-            fptr.close();
+            qfile.open("BackupEwasteUnits.dat", std::ios::in | std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
 
-            break;
 
             if (comparison)
             {
+                std::cout << "* --> Do you want to (a)dd or (r)emove quantity units of products (a/r): \n* --> ";
+                int prodNo = (fptr.tellp()/432);
+                char qChoice;
+                std::cin >> qChoice;
+
+                switch (qChoice)
+                {
+                    case ('a'):
+                    {
+                        std::fstream arrfile;
+                        std::fstream arrMain;
+                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out);
+
+                        bool smallCont_4 = 0;
+                        if (smallCont_3 != 1)
+                        {
+                            smallCont_4 = 1;
+                        }
+
+                        int userProdUnits[noOfProducts];
+
+                        while (smallCont_4 == 1)
+                        {
+                            for (int i = 1; i < noOfProducts; i++)
+                            {
+                                arrfile >> userProdUnits[i];
+                            }
+                            smallCont_4 = 0;
+
+                        }
+
+
+                        arrfile.close();
+                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out | std::fstream::trunc);
+                        if (!arrfile.is_open() || arrfile.fail())
+                        {
+                            arrfile.close();
+                        }
+                        arrfile.close();
+
+
+
+                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out);
+
+
+                        std::cout << "* --> Enter the number of units of " << searchPart << " you want to add. \n* --> ";
+                        int units = 0;
+                        std::cin >> units;
+
+                        //arrMain.seekg(0, std::fstream::end);
+
+                        while (smallCont_3 == 1)
+                        {
+
+
+                            for (int i = 0; i < noOfProducts; i++)
+                            {
+                                userProdUnits[i] = 1;
+                                std::cout << "done";
+                            }
+
+                            smallCont_3++;
+                        }
+
+                        userProdUnits[prodNo] += units;
+
+                        if (arrfile.is_open())
+                        {
+                            for (int i = 1; i < noOfProducts; i++)
+                            {
+                                arrfile << userProdUnits[i] << " ";
+                            }
+                        }
+                        else
+                        {
+                            std::cout << "Error, could open file";
+                        }
+
+                        arrfile.close();
+
+
+                        arrMain.open("arrayQMain.txt", std::ios::in | std::ios::out);
+
+
+                        for (int i = 1; i < noOfProducts; i++)
+                        {
+                            std::cout << userProdUnits[i] << std::endl;
+                            arrMain << userProdUnits[i] << " ";
+                        }
+
+                        arrMain.close();
+
+                        /*qfile.write((char*)&WP, sizeof(WasteProducts));
+
+                        qfile.seekp(0);
+                        /*while (qfile.eof() != 1)
+                        {
+                            qfile.read((char*)&WP, sizeof(WasteProducts));
+                            std::cout << prodSerial << " " << WP.Parts << " " << WP.Units << std::endl;
+                        }
+
+                        for (int i = 0; i < noOfProducts; i++)
+                        {
+                            std::cout << userProdUnits[i] << std::endl;
+                        }*/
+
+
+
+                    }
+                }
+
 
             }
+
+            break;
+
+
         }
     case 'c':
         {
@@ -451,12 +571,14 @@ void QuitMenu()
     std::cout << "*#            *                                             *               #*" << std::endl;
     std::cout << "******************************************************************************" << std::endl;
 
-    exit(0);
+    system("pause>null");
+    exit(1);
 }
 
 //Main Function
 int main()
 {
+
     cont = 1;
     system("cls");
     //A variable which keeps the app in loop;
@@ -465,26 +587,6 @@ int main()
 
     //Reference for Spacing in Data File;
     cin.imbue(locale(cin.getloc(), new colon_is_space));
-
-    /*switch (page)
-    {
-        case (homePage):
-        {
-            HomeMenu();
-            page = menuPage;
-        }
-        case (menuPage):
-        {
-            system("cls");
-            MainMenu();
-            page = mainPage;
-            system("cls");
-        }
-        case (mainPage):
-        {
-            MainPage();
-        }
-    }*/
 
     while (cont == 1)
     {
