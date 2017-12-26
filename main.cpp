@@ -121,13 +121,13 @@ void MainMenu()
     std::cout << "*                                                                        *" << std::endl;
     std::cout << "*             (a) I want to go through the product list.                 *" << std::endl;
     std::cout << "*                                                                        *" << std::endl;
-    std::cout << "*             (b) I want to search and manage E-Waste Products.          *" << std::endl;
+    std::cout << "*             (q) Quit.                                                  *" << std::endl;
     std::cout << "*                                                                        *" << std::endl;
     std::cout << "*                                                                        *" << std::endl;
     std::cout << "*                                                                        *" << std::endl;
     std::cout << "**************************************************************************" << std::endl;
     std::cout << std::endl;
-    std::cout << "Enter choice -> a or b.\n" << "--> ";
+    std::cout << "Enter choice -> a or q.\n" << "--> ";
     std::cin >> choiceMain;
 
 }
@@ -167,11 +167,13 @@ void MainPage()
     ///If 'a' is pressed
     case 'a':
         {
+
             ///Number of products
             int noOfProducts = 1;
             std::cout << "******************************************************************";
             ///Moves the pointer to the first position
             fptr.seekp(0);
+
             ///While the file is not ended
             while(fptr.eof() != 1)
             {
@@ -182,6 +184,8 @@ void MainPage()
                 ///Increment NoOfProducts by 1 on each iteration
                 noOfProducts++;
             }
+
+
 
             std::cout << "\n******************************************************************";
             ///Close File Pointer
@@ -309,489 +313,495 @@ void MainPage()
 
         }
     ///If 'b' is pressed
-    case 'b':
-        {
-            /*char searchPart[20];        //Wont be there in the GUI versionz
-            std::cout << "Enter what you want to search: ";
-            std::cin >> searchPart;
-            fptr.seekp(0);
-            while(fptr.eof() != 1)
-            {
-                fptr.read((char *)&WP, sizeof(WasteProducts));
-                std::string part = WP.Parts;
-                std::string searched = searchPart;
-                if(part.compare(searched) == 0)
-                {
-                    fptr.read((char *)&WP, sizeof(WasteProducts));
-                    std::cout << "Found" << std::endl;
-                    std::cout << "\n\tID\tParts\tDescription\tSolution\t";
-                    std::cout << "\n\t" << WP.ID << "\t" << WP.Parts << "\t" << WP.Description << "\t" << WP.Solution;
-                    break;
-                }
-            }*/
-            ///No of Products
-            int noOfProducts = 1;
-            ///Move pointer to 1st position
-            fptr.seekp(0);
-            std::cout << "******************************************************************\n";
-            std::cout << "* --> This is the product list: \n";
-            std::cout << "*        ________________\n" << "*";
-            while (fptr.eof() != 1)
-            {
-                fptr.read((char *)&WP, sizeof(WasteProducts));
-
-                std::cout << "\n* --> " << WP.Parts;
-                ///Increment No Of Product
-                noOfProducts++;
-            }
-            std::cout << "\n*        _________________\n*\n******************************************************************";
-
-            fptr.close();
-            fptr.open("BackupEwasteWasteProducts.dat", std::ios::in | std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
-
-            ///The user's input for product
-            char searchPart[20];
-
-            std::cout << "\n* --> Which product do you want to manage: \n* --> ";
-            std::cin >> searchPart;
-
-
-            fptr.seekp(0);
-            ///Comparison (same as above)
-            bool comparison;
-
-            while (fptr.eof() != 1)
-            {
-                fptr.read((char*)&WP, sizeof(WasteProducts));
-                std::string part = WP.Parts;
-                std::string userSearch = searchPart;
-
-                if (userSearch.compare(part) == 0)
-                {
-                    comparison = true;
-                    break;
-                }
-                else
-                {
-                    comparison = false;
-                    continue;
-                }
-            }
-            ///Input input is wrong
-            if (fptr.eof() && !comparison)
-            {
-                std::cout << "* --> Please Enter the correct product name.";
-            }
-            //qfile.open("BackupEwasteUnits.dat", std::ios::in | std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
-
-            ///If input is correct
-            if (comparison)
-            {
-
-                std::cout << "* --> Do you want to (a)dd, (r)emove quantity units, (c)heck quantity\n      or see (d)escription of products (a/r/c/d): \n* --> ";
-
-                ///this is the product ID type of thingy.
-                int prodNo = (fptr.tellp()/432);
-                ///Quantity choice
-                char qChoice;
-                ///Input
-                std::cin >> qChoice;
-
-
-                ///Check the input
-                switch (qChoice)
-                {
-                    ///If user wants to add units
-                    case ('a'):
-                    {
-                        ///This is the file which stores values of array. This is not a persistent file (volatile)
-                        std::fstream arrfile;
-
-
-                        ///Open file
-                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out);
-                        //arrMain.open("arrayQMain.txt", std::ios::in | std::ios::binary | std::ios::app | std::ios::ate);
-                        ///looping var which checks if the user came back for management for second time without closing the application
-                        bool smallCont_4 = 0;
-                        ///looping var which checks if the user is coming for management for the first time.
-                        if (smallCont_3 != 1)
-                        {
-                            smallCont_4 = 1;
-                        }
-
-                        ///The main array which checks for units for products.
-                        int userProdUnits[noOfProducts];
-
-                        while (smallCont_3 == 1)
-                        {
-
-                            /*for (int i = 0; i < noOfProducts; i++)
-                            {
-
-                                arrMain.seekg (0, std::ios::end);
-                                if (arrMain.tellg() == 0)
-                                {
-                                    userProdUnits[i] = 1;
-                                    std::cout << "empty";
-                                }
-                                else
-                                {
-                                    std::cout << "notempty";
-                                    arrMain >> userProdUnits[i];
-                                }
-                            }*/
-
-                            //arrMain.seekg (0, std::ios::end);
-                            //if (arrMain.tellg() == 0)
-                            //{
-                                for (int i = 0; i < noOfProducts; i++)
-                                {
-                                    userProdUnits[i] = 1;
-                                }
-
-                                //std::cout << "empty";
-                            //}
-                            /*else
-                            {
-                                int i = 0;
-                                //std::cout << "notempty";
-                                while (arrMain.eof() != 1)
-                                {
-                                    arrMain.read((char *)&userProdUnits, sizeof(userProdUnits));
-                                    //arrMain >> userProdUnits[i];
-                                    i++;
-                                }
-
-                            }*/
-
-                            smallCont_3++;
-                        }
-                       // arrMain.close();
-                        ///If the user came back second time
-                        while (smallCont_4 == 1)
-                        {
-                            for (int i = 1; i < noOfProducts; i++)
-                            {
-                                ///adds the value of Ith node of array to the file
-                                arrfile >> userProdUnits[i];
-                            }
-                            ///breaks loop
-                            smallCont_4 = 0;
-
-                        }
-
-                        ///close file
-                        arrfile.close();
-                        ///open file
-                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out | std::fstream::trunc);
-
-                        ///If file fails to open then close it
-                        if (!arrfile.is_open() || arrfile.fail())
-                        {
-                            arrfile.close();
-                        }
-                        arrfile.close();
-
-
-
-                        ///open
-                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out);
-
-
-                        std::cout << "* --> Enter the number of units of " << searchPart << " you want to add. \n* --> ";
-                        ///Main var which keeps track of the units
-                        int units = 0;
-                        std::cin >> units;
-
-                        //arrMain.seekg(0, std::fstream::end);
-
-                        ///Checks if user came for the first time
-
-
-                        ///Main line of code which increments the value of the units
-                        userProdUnits[prodNo] += units;
-                        std::cout << "* --> " << units << " units of " << searchPart << " added!";
-
-                        ///If file is open then export the var to file
-                        if (arrfile.is_open())
-                        {
-                            for (int i = 1; i < noOfProducts; i++)
-                            {
-                                arrfile << userProdUnits[i] << " ";
-                            }
-                        }
-                        ///if file doesn't open
-                        else
-                        {
-                            //std::cout << "Error, couldnot open file";
-
-                        }
-
-                        arrfile.close();
-
-
-                        //arrMain.open("arrayQMain.txt", std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
-
-
-                        ///Add the values of array to the main array file
-                        /*for (int i = 1; i < noOfProducts; i++)
-                        {
-                            std::cout << userProdUnits[i] << std::endl;
-                            /*if (arrMain.is_open())
-                            {
-                                //arrMain << userProdUnits[i] << " ";
-                                arrMain.write((char *)&userProdUnits, sizeof(userProdUnits));
-                            }*/
-
-
-                        //}
-
-
-
-
-                        //arrMain.close();
-
-                        /*qfile.write((char*)&WP, sizeof(WasteProducts));
-
-                        qfile.seekp(0);
-                        /*while (qfile.eof() != 1)
-                        {
-                            qfile.read((char*)&WP, sizeof(WasteProducts));
-                            std::cout << prodSerial << " " << WP.Parts << " " << WP.Units << std::endl;
-                        }
-
-                        for (int i = 0; i < noOfProducts; i++)
-                        {
-                            std::cout << userProdUnits[i] << std::endl;
-                        }*/
-
-
-                        break;
-                    }
-
-                    case ('r'):
-                    {
-                        ///This is the file which stores values of array. This is not a persistent file (volatile)
-                        std::fstream arrfile;
-
-
-                        ///Open file
-                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out);
-                        //arrMain.open("arrayQMain.txt", std::ios::in | std::ios::binary | std::ios::app | std::ios::ate);
-                        ///looping var which checks if the user came back for management for second time without closing the application
-                        bool smallCont_4 = 0;
-                        ///looping var which checks if the user is coming for management for the first time.
-                        if (smallCont_3 != 1)
-                        {
-                            smallCont_4 = 1;
-                        }
-
-                        ///The main array which checks for units for products.
-                        int userProdUnits[noOfProducts];
-
-                        while (smallCont_3 == 1)
-                        {
-
-                            /*for (int i = 0; i < noOfProducts; i++)
-                            {
-
-                                arrMain.seekg (0, std::ios::end);
-                                if (arrMain.tellg() == 0)
-                                {
-                                    userProdUnits[i] = 1;
-                                    std::cout << "empty";
-                                }
-                                else
-                                {
-                                    std::cout << "notempty";
-                                    arrMain >> userProdUnits[i];
-                                }
-                            }*/
-
-                            //arrMain.seekg (0, std::ios::end);
-                            //if (arrMain.tellg() == 0)
-                            //{
-                                for (int i = 0; i < noOfProducts; i++)
-                                {
-                                    userProdUnits[i] = 1;
-                                }
-
-                                //std::cout << "empty";
-                            //}
-                            /*else
-                            {
-                                int i = 0;
-                                //std::cout << "notempty";
-                                while (arrMain.eof() != 1)
-                                {
-                                    arrMain.read((char *)&userProdUnits, sizeof(userProdUnits));
-                                    //arrMain >> userProdUnits[i];
-                                    i++;
-                                }
-
-                            }*/
-
-                            smallCont_3++;
-                        }
-                       // arrMain.close();
-                        ///If the user came back second time
-                        while (smallCont_4 == 1)
-                        {
-                            for (int i = 1; i < noOfProducts; i++)
-                            {
-                                ///adds the value of Ith node of array to the file
-                                arrfile >> userProdUnits[i];
-                            }
-                            ///breaks loop
-                            smallCont_4 = 0;
-
-                        }
-
-                        ///close file
-                        arrfile.close();
-                        ///open file
-                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out | std::fstream::trunc);
-
-                        ///If file fails to open then close it
-                        if (!arrfile.is_open() || arrfile.fail())
-                        {
-                            arrfile.close();
-                        }
-                        arrfile.close();
-
-
-
-                        ///open
-                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out);
-
-
-                        std::cout << "* --> Enter the number of units of " << searchPart << " you want to remove. \n* --> ";
-                        ///Main var which keeps track of the units
-                        int units = 0;
-                        std::cin >> units;
-
-                        if (units > userProdUnits[prodNo])
-                        {
-                            std::cout << "Error! Please enter a number less than the units available here.";
-                        }
-                        else
-                        {
-                            userProdUnits[prodNo] -= units;
-                            std::cout << "* --> " << units << " units of " << searchPart << " removed!";
-
-                            if (arrfile.is_open())
-                            {
-                                for (int i = 1; i < noOfProducts; i++)
-                                {
-                                    arrfile << userProdUnits[i] << " ";
-                                }
-                            }
-                            ///if file doesn't open
-                            else
-                            {
-                                //std::cout << "Error, couldnot open file";
-
-                            }
-
-                            arrfile.close();
-                        }
-
-
-                        //arrMain.seekg(0, std::fstream::end);
-
-                        ///Checks if user came for the first time
-
-
-                        ///Main line of code which increments the value of the units
-
-
-                        ///If file is open then export the var to file
-
-
-
-                        //arrMain.open("arrayQMain.txt", std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
-
-
-                        ///Add the values of array to the main array file
-                        /*for (int i = 1; i < noOfProducts; i++)
-                        {
-                            std::cout << userProdUnits[i] << std::endl;
-                            /*if (arrMain.is_open())
-                            {
-                                //arrMain << userProdUnits[i] << " ";
-                                arrMain.write((char *)&userProdUnits, sizeof(userProdUnits));
-                            }*/
-
-
-                        //}
-
-
-
-
-                        //arrMain.close();
-
-                        /*qfile.write((char*)&WP, sizeof(WasteProducts));
-
-                        qfile.seekp(0);
-                        /*while (qfile.eof() != 1)
-                        {
-                            qfile.read((char*)&WP, sizeof(WasteProducts));
-                            std::cout << prodSerial << " " << WP.Parts << " " << WP.Units << std::endl;
-                        }
-
-                        for (int i = 0; i < noOfProducts; i++)
-                        {
-                            std::cout << userProdUnits[i] << std::endl;
-                        }*/
-
-                        break;
-
-                    }
-                    case ('c'):
-                    {
-                        system("cls");
-                        std::cout << "******************************************************\n*";
-                        std::fstream arrFile;
-                        arrFile.open("arrayQfile.txt", std::fstream::in | std::fstream::out);
-
-                        int userProdUnits[noOfProducts];
-
-                        arrFile.seekg(0, std::ios::end);
-                        if (arrFile.tellg() == 0)
-                        {
-                            std::cout << "empty";
-                            for (int i = 0; i < noOfProducts; i++)
-                            {
-                                userProdUnits[i] = 1;
-                                arrFile << userProdUnits[i] << " ";
-                            }
-                        }
-                        else
-                        {
-                            std::cout << "copying";
-                            for (int i = 0; i < noOfProducts; i++)
-                            {
-                                arrFile >> userProdUnits[i];
-                            }
-                        }
-
-
-                        std::cout << "\n* --> " << "The number of units of " << searchPart << " are " << userProdUnits[prodNo] << "\n*";
-                        std::cout << "\n******************************************************\n*";
-
-                        arrFile.close();
-
-                    }
-
-                }
-
-
-            }
-
-            break;
-
-
-        }
+//    case 'b':
+//        {
+//            /*char searchPart[20];        //Wont be there in the GUI versionz
+//            std::cout << "Enter what you want to search: ";
+//            std::cin >> searchPart;
+//            fptr.seekp(0);
+//            while(fptr.eof() != 1)
+//            {
+//                fptr.read((char *)&WP, sizeof(WasteProducts));
+//                std::string part = WP.Parts;
+//                std::string searched = searchPart;
+//                if(part.compare(searched) == 0)
+//                {
+//                    fptr.read((char *)&WP, sizeof(WasteProducts));
+//                    std::cout << "Found" << std::endl;
+//                    std::cout << "\n\tID\tParts\tDescription\tSolution\t";
+//                    std::cout << "\n\t" << WP.ID << "\t" << WP.Parts << "\t" << WP.Description << "\t" << WP.Solution;
+//                    break;
+//                }
+//            }*/
+//            ///No of Products
+//            int noOfProducts = 1;
+//            ///Move pointer to 1st position
+//            fptr.seekp(0);
+//            std::cout << "******************************************************************\n";
+//            std::cout << "* --> This is the product list: \n";
+//            std::cout << "*        ________________\n" << "*";
+//            while (fptr.eof() != 1)
+//            {
+//                fptr.read((char *)&WP, sizeof(WasteProducts));
+//
+//                std::cout << "\n* --> " << WP.Parts;
+//                ///Increment No Of Product
+//                noOfProducts++;
+//            }
+//            std::cout << "\n*        _________________\n*\n******************************************************************";
+//
+//            fptr.close();
+//            fptr.open("BackupEwasteWasteProducts.dat", std::ios::in | std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
+//
+//            ///The user's input for product
+//            char searchPart[20];
+//
+//            std::cout << "\n* --> Which product do you want to manage: \n* --> ";
+//            std::cin >> searchPart;
+//
+//
+//            fptr.seekp(0);
+//            ///Comparison (same as above)
+//            bool comparison;
+//
+//            while (fptr.eof() != 1)
+//            {
+//                fptr.read((char*)&WP, sizeof(WasteProducts));
+//                std::string part = WP.Parts;
+//                std::string userSearch = searchPart;
+//
+//                if (userSearch.compare(part) == 0)
+//                {
+//                    comparison = true;
+//                    break;
+//                }
+//                else
+//                {
+//                    comparison = false;
+//                    continue;
+//                }
+//            }
+//            ///Input input is wrong
+//            if (fptr.eof() && !comparison)
+//            {
+//                std::cout << "* --> Please Enter the correct product name.";
+//            }
+//            //qfile.open("BackupEwasteUnits.dat", std::ios::in | std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
+//
+//            ///If input is correct
+//            if (comparison)
+//            {
+//
+//                std::cout << "* --> Do you want to (a)dd, (r)emove quantity units, (c)heck quantity\n      or see (d)escription of products (a/r/c/d): \n* --> ";
+//
+//                ///this is the product ID type of thingy.
+//                int prodNo = (fptr.tellp()/432);
+//                ///Quantity choice
+//                char qChoice;
+//                ///Input
+//                std::cin >> qChoice;
+//
+//
+//                ///Check the input
+//                switch (qChoice)
+//                {
+//                    ///If user wants to add units
+//                    case ('a'):
+//                    {
+//                        ///This is the file which stores values of array. This is not a persistent file (volatile)
+//                        std::fstream arrfile;
+//
+//
+//                        ///Open file
+//                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out);
+//                        //arrMain.open("arrayQMain.txt", std::ios::in | std::ios::binary | std::ios::app | std::ios::ate);
+//                        ///looping var which checks if the user came back for management for second time without closing the application
+//                        bool smallCont_4 = 0;
+//                        ///looping var which checks if the user is coming for management for the first time.
+//                        if (smallCont_3 != 1)
+//                        {
+//                            smallCont_4 = 1;
+//                        }
+//
+//                        ///The main array which checks for units for products.
+//                        int userProdUnits[noOfProducts];
+//
+//                        while (smallCont_3 == 1)
+//                        {
+//
+//                            /*for (int i = 0; i < noOfProducts; i++)
+//                            {
+//
+//                                arrMain.seekg (0, std::ios::end);
+//                                if (arrMain.tellg() == 0)
+//                                {
+//                                    userProdUnits[i] = 1;
+//                                    std::cout << "empty";
+//                                }
+//                                else
+//                                {
+//                                    std::cout << "notempty";
+//                                    arrMain >> userProdUnits[i];
+//                                }
+//                            }*/
+//
+//                            //arrMain.seekg (0, std::ios::end);
+//                            //if (arrMain.tellg() == 0)
+//                            //{
+//                                for (int i = 0; i < noOfProducts; i++)
+//                                {
+//                                    userProdUnits[i] = 1;
+//                                }
+//
+//                                //std::cout << "empty";
+//                            //}
+//                            /*else
+//                            {
+//                                int i = 0;
+//                                //std::cout << "notempty";
+//                                while (arrMain.eof() != 1)
+//                                {
+//                                    arrMain.read((char *)&userProdUnits, sizeof(userProdUnits));
+//                                    //arrMain >> userProdUnits[i];
+//                                    i++;
+//                                }
+//
+//                            }*/
+//
+//                            smallCont_3++;
+//                        }
+//                       // arrMain.close();
+//                        ///If the user came back second time
+//                        while (smallCont_4 == 1)
+//                        {
+//                            for (int i = 1; i < noOfProducts; i++)
+//                            {
+//                                ///adds the value of Ith node of array to the file
+//                                arrfile >> userProdUnits[i];
+//                            }
+//                            ///breaks loop
+//                            smallCont_4 = 0;
+//
+//                        }
+//
+//                        ///close file
+//                        arrfile.close();
+//                        ///open file
+//                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out | std::fstream::trunc);
+//
+//                        ///If file fails to open then close it
+//                        if (!arrfile.is_open() || arrfile.fail())
+//                        {
+//                            arrfile.close();
+//                        }
+//                        arrfile.close();
+//
+//
+//
+//                        ///open
+//                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out);
+//
+//
+//                        std::cout << "* --> Enter the number of units of " << searchPart << " you want to add. \n* --> ";
+//                        ///Main var which keeps track of the units
+//                        int units = 0;
+//                        std::cin >> units;
+//
+//                        //arrMain.seekg(0, std::fstream::end);
+//
+//                        ///Checks if user came for the first time
+//
+//
+//                        ///Main line of code which increments the value of the units
+//                        userProdUnits[prodNo] += units;
+//                        std::cout << "* --> " << units << " units of " << searchPart << " added!";
+//
+//                        ///If file is open then export the var to file
+//                        if (arrfile.is_open())
+//                        {
+//                            for (int i = 1; i < noOfProducts; i++)
+//                            {
+//                                arrfile << userProdUnits[i] << " ";
+//                            }
+//                        }
+//                        ///if file doesn't open
+//                        else
+//                        {
+//                            //std::cout << "Error, couldnot open file";
+//
+//                        }
+//
+//                        arrfile.close();
+//
+//
+//                        //arrMain.open("arrayQMain.txt", std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
+//
+//
+//                        ///Add the values of array to the main array file
+//                        /*for (int i = 1; i < noOfProducts; i++)
+//                        {
+//                            std::cout << userProdUnits[i] << std::endl;
+//                            /*if (arrMain.is_open())
+//                            {
+//                                //arrMain << userProdUnits[i] << " ";
+//                                arrMain.write((char *)&userProdUnits, sizeof(userProdUnits));
+//                            }*/
+//
+//
+//                        //}
+//
+//
+//
+//
+//                        //arrMain.close();
+//
+//                        /*qfile.write((char*)&WP, sizeof(WasteProducts));
+//
+//                        qfile.seekp(0);
+//                        /*while (qfile.eof() != 1)
+//                        {
+//                            qfile.read((char*)&WP, sizeof(WasteProducts));
+//                            std::cout << prodSerial << " " << WP.Parts << " " << WP.Units << std::endl;
+//                        }
+//
+//                        for (int i = 0; i < noOfProducts; i++)
+//                        {
+//                            std::cout << userProdUnits[i] << std::endl;
+//                        }*/
+//
+//
+//                        break;
+//                    }
+//
+//                    case ('r'):
+//                    {
+//                        ///This is the file which stores values of array. This is not a persistent file (volatile)
+//                        std::fstream arrfile;
+//
+//
+//                        ///Open file
+//                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out);
+//                        //arrMain.open("arrayQMain.txt", std::ios::in | std::ios::binary | std::ios::app | std::ios::ate);
+//                        ///looping var which checks if the user came back for management for second time without closing the application
+//                        bool smallCont_4 = 0;
+//                        ///looping var which checks if the user is coming for management for the first time.
+//                        if (smallCont_3 != 1)
+//                        {
+//                            smallCont_4 = 1;
+//                        }
+//
+//                        ///The main array which checks for units for products.
+//                        int userProdUnits[noOfProducts];
+//
+//                        while (smallCont_3 == 1)
+//                        {
+//
+//                            /*for (int i = 0; i < noOfProducts; i++)
+//                            {
+//
+//                                arrMain.seekg (0, std::ios::end);
+//                                if (arrMain.tellg() == 0)
+//                                {
+//                                    userProdUnits[i] = 1;
+//                                    std::cout << "empty";
+//                                }
+//                                else
+//                                {
+//                                    std::cout << "notempty";
+//                                    arrMain >> userProdUnits[i];
+//                                }
+//                            }*/
+//
+//                            //arrMain.seekg (0, std::ios::end);
+//                            //if (arrMain.tellg() == 0)
+//                            //{
+//                                for (int i = 0; i < noOfProducts; i++)
+//                                {
+//                                    userProdUnits[i] = 1;
+//                                }
+//
+//                                //std::cout << "empty";
+//                            //}
+//                            /*else
+//                            {
+//                                int i = 0;
+//                                //std::cout << "notempty";
+//                                while (arrMain.eof() != 1)
+//                                {
+//                                    arrMain.read((char *)&userProdUnits, sizeof(userProdUnits));
+//                                    //arrMain >> userProdUnits[i];
+//                                    i++;
+//                                }
+//
+//                            }*/
+//
+//                            smallCont_3++;
+//                        }
+//                       // arrMain.close();
+//                        ///If the user came back second time
+//                        while (smallCont_4 == 1)
+//                        {
+//                            for (int i = 1; i < noOfProducts; i++)
+//                            {
+//                                ///adds the value of Ith node of array to the file
+//                                arrfile >> userProdUnits[i];
+//                            }
+//                            ///breaks loop
+//                            smallCont_4 = 0;
+//
+//                        }
+//
+//                        ///close file
+//                        arrfile.close();
+//                        ///open file
+//                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out | std::fstream::trunc);
+//
+//                        ///If file fails to open then close it
+//                        if (!arrfile.is_open() || arrfile.fail())
+//                        {
+//                            arrfile.close();
+//                        }
+//                        arrfile.close();
+//
+//
+//
+//                        ///open
+//                        arrfile.open("arrayQfile.txt", std::fstream::in | std::fstream::out);
+//
+//
+//                        std::cout << "* --> Enter the number of units of " << searchPart << " you want to remove. \n* --> ";
+//                        ///Main var which keeps track of the units
+//                        int units = 0;
+//                        std::cin >> units;
+//
+//                        if (units > userProdUnits[prodNo])
+//                        {
+//                            std::cout << "Error! Please enter a number less than the units available here.";
+//                        }
+//                        else
+//                        {
+//                            userProdUnits[prodNo] -= units;
+//                            std::cout << "* --> " << units << " units of " << searchPart << " removed!";
+//
+//                            if (arrfile.is_open())
+//                            {
+//                                for (int i = 1; i < noOfProducts; i++)
+//                                {
+//                                    arrfile << userProdUnits[i] << " ";
+//                                }
+//                            }
+//                            ///if file doesn't open
+//                            else
+//                            {
+//                                //std::cout << "Error, couldnot open file";
+//
+//                            }
+//
+//                            arrfile.close();
+//                        }
+//
+//
+//                        //arrMain.seekg(0, std::fstream::end);
+//
+//                        ///Checks if user came for the first time
+//
+//
+//                        ///Main line of code which increments the value of the units
+//
+//
+//                        ///If file is open then export the var to file
+//
+//
+//
+//                        //arrMain.open("arrayQMain.txt", std::ios::out | std::ios::binary | std::ios::app | std::ios::ate);
+//
+//
+//                        ///Add the values of array to the main array file
+//                        /*for (int i = 1; i < noOfProducts; i++)
+//                        {
+//                            std::cout << userProdUnits[i] << std::endl;
+//                            /*if (arrMain.is_open())
+//                            {
+//                                //arrMain << userProdUnits[i] << " ";
+//                                arrMain.write((char *)&userProdUnits, sizeof(userProdUnits));
+//                            }*/
+//
+//
+//                        //}
+//
+//
+//
+//
+//                        //arrMain.close();
+//
+//                        /*qfile.write((char*)&WP, sizeof(WasteProducts));
+//
+//                        qfile.seekp(0);
+//                        /*while (qfile.eof() != 1)
+//                        {
+//                            qfile.read((char*)&WP, sizeof(WasteProducts));
+//                            std::cout << prodSerial << " " << WP.Parts << " " << WP.Units << std::endl;
+//                        }
+//
+//                        for (int i = 0; i < noOfProducts; i++)
+//                        {
+//                            std::cout << userProdUnits[i] << std::endl;
+//                        }*/
+//
+//                        break;
+//
+//                    }
+//                    case ('c'):
+//                    {
+//                        system("cls");
+//                        std::cout << "******************************************************\n*";
+//                        std::fstream arrFile;
+//                        arrFile.open("arrayQfile.txt", std::fstream::in | std::fstream::out);
+//
+//                        int userProdUnits[noOfProducts];
+//
+//                        arrFile.seekg(0, std::ios::end);
+//                        if (arrFile.tellg() == 0)
+//                        {
+//                            std::cout << "empty";
+//                            for (int i = 0; i < noOfProducts; i++)
+//                            {
+//                                userProdUnits[i] = 1;
+//                                arrFile << userProdUnits[i] << " ";
+//                            }
+//                        }
+//                        else
+//                        {
+//                            std::cout << "copying";
+//                            for (int i = 0; i < noOfProducts; i++)
+//                            {
+//                                arrFile >> userProdUnits[i];
+//                            }
+//                        }
+//
+//
+//                        std::cout << "\n* --> " << "The number of units of " << searchPart << " are " << userProdUnits[prodNo] << "\n*";
+//                        std::cout << "\n******************************************************\n*";
+//
+//                        arrFile.close();
+//
+//                    }
+//
+//                }
+//
+//
+//            }
+//
+//            break;
+//
+//
+//        }
+    case ('q'):
+    {
+        system("cls");
+        QuitMenu();
+        break;
+    }
         ///Wrong choice
     default:
         {
@@ -813,7 +823,7 @@ void MainPage()
             case ('b'):
             {
                 system("cls");
-                page = menuPage;
+                page = mainPage;
                 smallCont = 0;
                 break;
             }///quit
